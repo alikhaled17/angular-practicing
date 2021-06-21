@@ -1,0 +1,47 @@
+<br>
+<!-- <input type="button" (click)="deleteAll()" value="Delete aLL" class="btn btn-primary" > -->
+<div class="container">
+  <h2 class="text-muted"><b>Todo-List</b></h2><hr>
+  <b class="text-muted"> You have <span class="text-danger">{{getPendingTasks()}}</span> Tasks</b>
+  <div class="card" >
+    <div class="card-header row">
+      <div class="col-md-10">
+          <input #inputTitle (keyup.enter)="addTask(inputTitle.value);inputTitle.value='';" type="text" value="" class="form-control" id="inputValid">
+      </div>
+      <div class="col-md-2">
+        <input type="button" (click)="addTask(inputTitle.value);inputTitle.value='';" style="width: 100%" value="Add" class="btn btn-primary" >
+      </div>
+    </div>
+    <table class="table table-hover" *ngIf="!isLoaded">
+      <thead><tr><th>Looding...</th></tr></thead>
+    </table>
+    <table class="table table-hover" *ngIf="tasks.length==0 && isLoaded">
+      <thead><tr><th>No Data Found!</th></tr></thead>
+    </table>
+    <table class="table table-hover" *ngIf="tasks.length>0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of tasks; index as i">
+          <td>{{i}}</td>
+          <td>
+            <a routerLink="/details/{{t.ID}}"  >
+              {{t.Title}} {{t.ID}}
+            </a>
+          </td>
+          <td><input type="checkbox" (change)="changeStatus(t)" [checked]="t.IsDone"></td>
+          <td>
+            <input *ngIf="!t.IsDeleted" class="btn btn-danger" type="button" value="Delete" (click)="deleteTask(i)">
+            <img *ngIf="t.IsDeleted" src="assets/images/ajax-loader.gif" width="30">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
